@@ -170,7 +170,7 @@ module.exports = function () {
 
     try {
       if (!datapackage) {
-        datapackage = await Model.getPackage(req.params.name)
+        datapackage = await Model.getPackage(req.params.owner, req.params.name)
       }
     } catch (err) {
       /* istanbul ignore next */
@@ -183,26 +183,23 @@ module.exports = function () {
     datapackage = utils.processDataPackage(datapackage)
 
     // Prepare resources for display (preview):
-    datapackage = utils.prepareResourcesForDisplay(datapackage)
+    //datapackage = utils.prepareResourcesForDisplay(req.params.owner, req.params.name, datapackage)
 
     // Since "datapackage-views-js" library renders views according to
     // descriptor's "views" property, we need to generate view objects.
     // Note that we have "views" per resources so here we will consolidate them.
-    datapackage = utils.prepareViews(datapackage)
+    //datapackage = utils.prepareViews(datapackage)
 
     // Data Explorer used a slightly different spec than "datapackage-views-js":
-    datapackage = utils.prepareDataExplorers(datapackage)
+    //datapackage = utils.prepareDataExplorers(datapackage)
 
     try {
-      const profile = await Model.getProfile(req.params.owner)
       res.render('showcase.html', {
         title: req.params.owner + ' | ' + req.params.name,
         dataset: datapackage,
         owner: {
-          name: profile.name,
-          title: profile.title,
-          description: utils.processMarkdown.render(profile.description),
-          avatar: profile.image_display_url || profile.image_url
+          name: req.params.owner,
+          title: req.params.owner
         },
         thisPageFullUrl: '//' + req.get('host') + req.originalUrl,
         dpId: JSON.stringify(datapackage).replace(/'/g, "&#x27;") // keep for backwards compat?
@@ -267,7 +264,7 @@ module.exports = function () {
       const owner = req.params.owner
       const profile = await Model.getProfile(owner)
       // if not a valid profile, send them on the way
-      if (!profile.created) { 
+      if (!profile.created) {
         return res.status(404).render('404.html', {
           message: `Page found: ${owner}`,
           status: 404
