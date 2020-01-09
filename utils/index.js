@@ -374,6 +374,10 @@ module.exports.processDataPackage = function (datapackage) {
       newDatapackage.sizeFormatted = bytes(newDatapackage.bytes, {decimalPlaces: 0})
   }
 
+  if (newDatapackage.licenses) {
+      newDatapackage.license = newDatapackage.licenses[0].title
+  }
+
   newDatapackage.formats = newDatapackage.formats || []
   // Per each resource:
   newDatapackage.resources.forEach(resource => {

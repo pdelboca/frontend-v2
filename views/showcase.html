@@ -59,7 +59,7 @@
                 <td class="col-xs-2">{{ dataset.modified | formatDateFromNow }}</td>
                 <td class="col-xs-2">
                   {% if dataset.license %}
-                    <i class="fas fa-gavel"></i> {{snippets.listify([dataset.license])}}
+                    <i class="fas fa-gavel"></i> {{ dataset.license }}
                   {% endif %}
                 </td>
                 <td class="col-xs-2">
