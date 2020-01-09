@@ -370,6 +370,10 @@ module.exports.processDataPackage = function (datapackage) {
       .render(newDatapackage.readme)
   }
 
+  if (newDatapackage.bytes) {
+      newDatapackage.sizeFormatted = bytes(newDatapackage.bytes, {decimalPlaces: 0})
+  }
+
   newDatapackage.formats = newDatapackage.formats || []
   // Per each resource:
   newDatapackage.resources.forEach(resource => {
