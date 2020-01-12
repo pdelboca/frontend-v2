@@ -74,6 +74,14 @@ module.exports = function () {
     res.redirect(301, destination)
   })
 
+  router.get('/:owner/:name/blob/:ref/*', async (req, res) => {
+    try{
+        let destination = await Model.getBlobURL(req.params.owner, req.params.name, req.params.ref, req.params[0])
+        res.redirect(301, destination)
+    }catch(e){
+        console.log(e)
+    }
+  })
   // End of redirects
   // -----------------------------------------------
 
