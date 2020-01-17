@@ -173,12 +173,13 @@ module.exports = function () {
     }
   })
 
-  router.get('/:owner/:name', async (req, res, next) => {
+  router.get('/:owner/:name/tree/:ref?', async (req, res, next) => {
+    const ref = req.params.ref || 'master'
     let datapackage = res.locals.datapackage || null
 
     try {
       if (!datapackage) {
-        datapackage = await Model.getPackage(req.params.owner, req.params.name)
+        datapackage = await Model.getPackage(req.params.owner, req.params.name, ref)
       }
     } catch (err) {
       /* istanbul ignore next */
