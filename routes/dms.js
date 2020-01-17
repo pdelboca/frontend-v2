@@ -191,7 +191,7 @@ module.exports = function () {
     datapackage = utils.processDataPackage(datapackage)
 
     // Prepare resources for display (preview):
-    //datapackage = utils.prepareResourcesForDisplay(req.params.owner, req.params.name, datapackage)
+    datapackage = utils.prepareResourcesForDisplay(datapackage)
 
     // Since "datapackage-views-js" library renders views according to
     // descriptor's "views" property, we need to generate view objects.

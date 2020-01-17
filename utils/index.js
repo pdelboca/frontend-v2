@@ -413,31 +413,8 @@ module.exports.prepareResourcesForDisplay = function (datapackage) {
   const newDatapackage = JSON.parse(JSON.stringify(datapackage))
   newDatapackage.displayResources = []
   newDatapackage.resources.forEach((resource, index) => {
-    const api = resource.datastore_active
-      ? config.get('API_URL') + 'datastore_search?resource_id=' + resource.id
-      : null
-    // Use proxy path if datastore/filestore proxies are given:
-    let proxy, cc_proxy
-    try {
-      const resourceUrl = new URL(resource.path)
-      if (resourceUrl.host === config.get('PROXY_DATASTORE') && resource.format !== 'pdf') {
-        proxy = '/proxy/datastore' + resourceUrl.pathname + resourceUrl.search
-      }
-      if (resourceUrl.host === config.get('PROXY_FILESTORE') && resource.format !== 'pdf') {
-        proxy = '/proxy/filestore' + resourceUrl.pathname + resourceUrl.search
-      }
-      // Store a CKAN Classic proxy path
-      // https://github.com/ckan/ckan/blob/master/ckanext/resourceproxy/plugin.py#L59
-      const apiUrlObject = new URL(config.get('API_URL'))
-      cc_proxy = apiUrlObject.origin + `/dataset/${datapackage.id}/resource/${resource.id}/proxy`
-    } catch (e) {
-      console.warn(e)
-    }
     const displayResource = {
       resource,
-      api, // URI for getting the resource via API, e.g., Datastore. Useful when you want to fetch only 100 rows or similar.
-      proxy, // alternative for path in case there is CORS issue
-      cc_proxy,
       slug: slugify(resource.name) + '-' + index // Used for anchor links
     }
     newDatapackage.displayResources.push(displayResource)

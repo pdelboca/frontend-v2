@@ -26,7 +26,7 @@
           {{ (item.resource.modified or item.resource.last_modified) | formatDateFromNow }}
         </td>
         <td class="download truncate col-xs-4">
-          <a href="{{ item.resource.path }}" onclick="sendGAEvent('{{ dataset.name }}', '{{ item.esource.name }}', '{{ item.resource.format }}')">
+          <a href="{{ item.resource.download_url }}" onclick="sendGAEvent('{{ dataset.name }}', '{{ item.resource.name }}', '{{ item.resource.format }}')">
             {{ item.resource.format or 'Data file' }} {% if item.resource.size %}({{item.resource.sizeFormatted}}){% endif %}
           </a>
           {% for alt in item.resource.alternatives %}
